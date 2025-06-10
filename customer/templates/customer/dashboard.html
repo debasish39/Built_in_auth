@@ -1,0 +1,21 @@
+{% extends "account/base.html" %}
+
+{% block title %}Customer Dashboard{% endblock title %}
+
+{% block content %}
+<div class="bg-gray-700 p-9 rounded-lg shadow-lg space-y-6 text-center">
+    
+    <!-- Dashboard Heading -->
+    <h1 class="text-3xl font-extrabold text-rose-400">Customer Dashboard</h1>
+    
+    <!-- Info Text -->
+    <p class="text-gray-300 text-sm">Welcome to your personal dashboard. Manage your settings here.</p>
+
+    <!-- Change Password Button -->
+    <a href="{% url 'password_change' %}" 
+       class="inline-block bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3 px-6 rounded shadow transition duration-300">
+        🔒 Change Password
+    </a>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,122 @@
+{% extends "account/base.html" %}
+{% block title %}Login Page{% endblock %}
+
+{% block content %}
+<style>
+  .error {
+    display: none;
+  }
+</style>
+
+<div class="flex items-center justify-center px-4 py-8  bg-gray-600">
+    <div class="w-full max-w-md p-8 space-y-6 bg-gray-800 rounded-lg shadow-lg">
+        
+        <h2 class="text-2xl font-bold text-center text-white">Login to Your Account</h2>
+{% if messages %}
+  {% for message in messages %}
+    <div class="text-rose-600 font-semibold px-4 py-2 rounded shadow-sm mb-4">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+        <!-- Login Form -->
+        <form id="login-form" action="" method="POST" class="space-y-6" novalidate>
+            {% csrf_token %}
+
+            <!-- Email Field -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-white">Email</label>
+                <input type="text" name="email" id="email" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm bg-gray-700 text-white p-3" placeholder="Your email...">
+                <p id="email-error" class="text-sm text-red-400 mt-1 hidden"></p>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-white">Password</label>
+                <div class="relative">
+                    <input type="password" name="password" id="password" class="block w-full mt-1 pr-10 border-gray-300 rounded-md shadow-sm bg-gray-700 text-white p-3" placeholder="Your password...">
+                    <button type="button" onclick="togglePassword('password')" class="absolute inset-y-0 right-0 px-3 flex items-center text-sm text-white cursor-pointer">
+                        Show
+                    </button>
+                </div>
+                <p id="password-error" class="text-sm text-red-400 mt-1 hidden"></p>
+            </div>
+
+            <!-- Forgot Password -->
+            <div class="text-right">
+                <a href="{% url 'password_reset' %}" class="text-sm text-rose-400 hover:underline">Forgot Password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full px-4 py-2 text-white rounded-md bg-rose-500 hover:bg-rose-600 focus:outline-none focus:bg-rose-600 cursor-pointer">
+                Sign in
+            </button>
+        </form>
+
+        <!-- Or Divider -->
+        <div class="relative mt-6">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-gray-800 text-gray-500">Or</span>
+            </div>
+        </div>
+
+        <!-- Create Account Link -->
+        <div class="text-center">
+            <a href="{% url 'register' %}" class="text-sm text-rose-500 hover:underline cursor-pointer">Create an Account</a>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ JavaScript: Toggle password + form validation -->
+<script>
+    function togglePassword(id) {
+        const input = document.getElementById(id);
+        const button = input.nextElementSibling;
+        if (input.type === "password") {
+            input.type = "text";
+            button.textContent = "Hide";
+        } else {
+            input.type = "password";
+            button.textContent = "Show";
+        }
+    }
+
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const emailError = document.getElementById("email-error");
+        const passwordError = document.getElementById("password-error");
+
+        let valid = true;
+
+        // Reset errors
+        emailError.textContent = "";
+        emailError.classList.add("hidden");
+        passwordError.textContent = "";
+        passwordError.classList.add("hidden");
+
+        // Email check
+        if (!email.value.trim()) {
+            emailError.textContent = "Email is required.";
+            emailError.classList.remove("hidden");
+            valid = false;
+        }
+
+        // Password check
+        if (!password.value.trim()) {
+            passwordError.textContent = "Password is required.";
+            passwordError.classList.remove("hidden");
+            valid = false;
+        }
+
+        // Prevent form submission if invalid
+        if (!valid) {
+            e.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

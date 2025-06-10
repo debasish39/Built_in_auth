@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock title %}</title>
+<link rel='icon' href="{% static 'images/auth.ico' %}" type='image/icon' />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-600 text-white">
+
+    <!-- Header -->
+    <header class="bg-gray-800 shadow">
+        <nav class="max-w-7xl mx-auto md:px-1 md:py-1 flex justify-between items-center px-3 py-6">
+            <!-- Logo -->
+            <a href="{% url 'home' %}" class="font-bold text-rose-700 text-3xl">God</a>
+
+            <!-- Hamburger/Close Icon -->
+            <button id="menu-toggle" class="text-white text-3xl md:hidden">
+                ☰
+            </button>
+
+            <!-- Menu Links -->
+            <ul id="menu"
+                class="hidden flex-col space-y-4 bg-gray-800 text-white px-6 py-6 absolute top-16 right-4 w-56 rounded-md shadow-lg md:flex md:flex-row md:items-center md:space-y-0 md:space-x-9 md:static md:bg-transparent md:shadow-none md:w-auto">
+
+                <li>
+                    <a href="{% url 'home' %}" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-rose-400 text-left">
+                        Home
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'customer_dashboard' %}" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-rose-400 text-left">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post" class="text-left">
+                            {% csrf_token %}
+                            <button type="submit" class="block w-full px-4 py-2 rounded bg-rose-800 hover:bg-rose-700 text-left">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'register' %}" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-rose-400 text-left">
+                            Register
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}" class="block px-4 py-2 rounded hover:bg-gray-700 hover:text-rose-400 text-left">
+                            Login
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center px-4 py-10">
+        <div class="w-full max-w-md space-y-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="w-full text-center bg-rose-600 text-white px-4 py-2 rounded-md font-semibold shadow">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock content %}
+        </div>
+    </main>
+
+    <!-- Toggle Script -->
+    <script>
+        const toggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('menu');
+
+        toggle.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            toggle.textContent = menu.classList.contains('hidden') ? '☰' : '×';
+        });
+    </script>
+
+</body>
+</html>

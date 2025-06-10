@@ -128,13 +128,9 @@ SITE_NAME="Thanks God"
 LOGOUT_REDIRECT_URL = 'login'# In after the logout by user redirec to login page if we don't use it then it will render to built in admin page
 LOGIN_URL='login'
 #Mail Trap Email Configuration
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-# Looking to send emails in production? Check out our Email API/SMTP product!
-# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-# EMAIL_HOST_USER = '0206145d901f79'
-# EMAIL_HOST_PASSWORD = '7452221a3cb505'
-# EMAIL_PORT = '2525'
+
+
 EMAIL_BACKEND = config('EMAIL_BACKEND')
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_PORT = config('EMAIL_PORT', cast=int)

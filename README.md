@@ -21,28 +21,28 @@ SQLite (default) or any Django-supported database
 
 Setup Instructions
 1. Clone the Repository
-bash
-Copy code
+by using:
 git clone https://github.com/yourusername/django-auth-example.git
+
 cd django-auth-example
-2. Create a Virtual Environment
+3. Create a Virtual Environment
 bash
 Copy code
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-3. Install Dependencies
+4. Install Dependencies
 bash
 Copy code
 pip install -r requirements.txt
-4. Apply Migrations
+5. Apply Migrations
 bash
 Copy code
 python manage.py migrate
-5. Create a Superuser (Optional)
+6. Create a Superuser (Optional)
 bash
 Copy code
 python manage.py createsuperuser
-6. Run the Server
+7. Run the Server
 bash
 Copy code
 python manage.py runserver
